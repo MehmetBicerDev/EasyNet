@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="data">
+      <UniqueIdentifier>{6b0079cf-94b7-42fa-8774-9cacf59c35aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet">
+      <UniqueIdentifier>{bf10482e-c8a4-4c7e-8af0-648cd8521450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\core">
+      <UniqueIdentifier>{bc57b6ef-3899-4e25-9f76-16a4e83bc24f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{39795a37-db25-4444-853e-8de3cf9088ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\core\packets">
+      <UniqueIdentifier>{b4d52171-c66d-4eac-b206-dcb9c57ddb89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\core\packets\client">
+      <UniqueIdentifier>{cdeb07ac-830c-47d2-a6b8-d219fbd1e576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\core\packets\common">
+      <UniqueIdentifier>{9772ee26-bf7b-4d24-b9bf-9b0ef39007cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\core\packets\server">
+      <UniqueIdentifier>{b080c537-beab-43b7-a33f-4c91b9c061f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easynet\listeners">
+      <UniqueIdentifier>{39ff84ff-3aec-4dcb-becc-1a16b43f2b73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="c_buffer.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="includes.h" />
+    <ClInclude Include="easynet.h">
+      <Filter>easynet</Filter>
+    </ClInclude>
+    <ClInclude Include="net_config.h">
+      <Filter>easynet</Filter>
+    </ClInclude>
+    <ClInclude Include="easynet_constants.h">
+      <Filter>easynet</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_core_handler.h">
+      <Filter>easynet\core</Filter>
+    </ClInclude>
+    <ClInclude Include="c_session.h">
+      <Filter>easynet</Filter>
+    </ClInclude>
+    <ClInclude Include="c_crypt.h">
+      <Filter>easynet\core</Filter>
+    </ClInclude>
+    <ClInclude Include="crc32.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="c_timer.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="c_clientkeyexchange.h">
+      <Filter>easynet\core\packets\client</Filter>
+    </ClInclude>
+    <ClInclude Include="c_packet.h">
+      <Filter>easynet\core\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="c_encryptedmessage.h">
+      <Filter>easynet\core\packets\common</Filter>
+    </ClInclude>
+    <ClInclude Include="c_message.h">
+      <Filter>easynet\core\packets\common</Filter>
+    </ClInclude>
+    <ClInclude Include="c_server_connection_settings.h">
+      <Filter>easynet\core\packets\server</Filter>
+    </ClInclude>
+    <ClInclude Include="c_tcpclient.h">
+      <Filter>easynet\listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="c_tcpserver.h">
+      <Filter>easynet\listeners</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="c_crypt.cpp">
+      <Filter>easynet\core</Filter>
+    </ClCompile>
+    <ClCompile Include="crc32.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="c_session.cpp">
+      <Filter>easynet</Filter>
+    </ClCompile>
+    <ClCompile Include="packet_core_handler.cpp">
+      <Filter>easynet\core</Filter>
+    </ClCompile>
+    <ClCompile Include="c_tcpclient.cpp">
+      <Filter>easynet\listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="c_tcpserver.cpp">
+      <Filter>easynet\listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="easynet.cpp">
+      <Filter>easynet</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
