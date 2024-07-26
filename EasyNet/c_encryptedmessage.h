@@ -2,8 +2,6 @@
 #include "c_buffer.h"
 #include "easynet_constants.h"
 
-
-
 namespace easynet
 {
 	namespace core
@@ -12,7 +10,6 @@ namespace easynet
 		{
 		public:
 			c_encryptedmessage() { }
-
 
 			packet_type_opcode message_opcode = packet_type_opcode::none;
 			data::c_buffer     buffer;
@@ -26,10 +23,9 @@ namespace easynet
 
 				return mbuffer;
 			}
-			bool read( data::c_buffer& buffer)
+			bool read(data::c_buffer& buffer)
 			{
-				return (buffer.read_uint8 ( (uint8_t&)message_opcode ) && buffer.read_bytes ( buffer ));
-
+				return (buffer.read_uint8((uint8_t&)message_opcode) && buffer.read_bytes(buffer));
 			}
 		};
 	}

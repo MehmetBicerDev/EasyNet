@@ -1,10 +1,6 @@
 #pragma once
 #include "includes.h"
 
-
-
-
-
 enum class net_direction
 {
 	none,

@@ -28,22 +28,22 @@ bool easynet::c_session::is_disconnected()
 	return m_stop;
 }
 
-void easynet::c_session::update_ping(  )
+void easynet::c_session::update_ping()
 {
 	m_ping = GetTickCount64() - m_ping_timer.start_time() - 5000;
 }
 
-void easynet::c_session::reset_ping( )
+void easynet::c_session::reset_ping()
 {
 	m_ping_timer.reset();
 }
 
-bool easynet::c_session::should_send_ping( )
+bool easynet::c_session::should_send_ping()
 {
 	return m_ping_timer.time_elapsed() > 5000;
 }
 
-void easynet::c_session::send_packet( core::c_packet message )
+void easynet::c_session::send_packet(core::c_packet message)
 {
 	auto header = message.write_header();
 	auto buffer = message.body;
@@ -51,7 +51,7 @@ void easynet::c_session::send_packet( core::c_packet message )
 	this->m_send_packets.push_back(message);
 }
 
-void easynet::c_session::send_message( uint16_t message_opcode, data::c_buffer buffer )
+void easynet::c_session::send_message(uint16_t message_opcode, data::c_buffer buffer)
 {
 	core::c_message message;
 
@@ -61,7 +61,7 @@ void easynet::c_session::send_message( uint16_t message_opcode, data::c_buffer b
 	send_data(message.write(), packet_type_opcode::message);
 }
 
-void easynet::c_session::send_data( data::c_buffer message, packet_type_opcode opcode )
+void easynet::c_session::send_data(data::c_buffer message, packet_type_opcode opcode)
 {
 	core::c_packet packet;
 	packet.body = message;
@@ -71,10 +71,9 @@ void easynet::c_session::send_data( data::c_buffer message, packet_type_opcode o
 	send_packet(packet);
 }
 
-void easynet::c_session::send_encrypted( packet_type_opcode opcode, data::c_buffer message )
+void easynet::c_session::send_encrypted(packet_type_opcode opcode, data::c_buffer message)
 {
 	if (m_crypt && m_crypt->AES_KEY) {
-
 		bool res = false;
 		data::c_buffer core_struct;
 
@@ -91,11 +90,10 @@ void easynet::c_session::send_encrypted( packet_type_opcode opcode, data::c_buff
 
 			send_data(encrypted_message, packet_type_opcode::encrypted_message);
 		}
-
 	}
 }
 
-void easynet::c_session::read_packet( )
+void easynet::c_session::read_packet()
 {
 	while (!is_disconnected()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -134,7 +132,7 @@ void easynet::c_session::read_packet( )
 	}
 }
 
-void easynet::c_session::read_data( )
+void easynet::c_session::read_data()
 {
 	while (!m_client_socket)
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -151,11 +149,10 @@ void easynet::c_session::read_data( )
 		else {
 			m_received_buffer.write_bytes((uint8_t*)read_buffer, bytes_received);
 		}
-
 	}
 }
 
-void easynet::c_session::handle( )
+void easynet::c_session::handle()
 {
 	m_recv_thread = std::thread([this] {this->read_data(); });
 	m_packet_thread = std::thread([this] {this->read_packet(); });

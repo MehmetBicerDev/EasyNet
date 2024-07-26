@@ -3,14 +3,6 @@
 #include "c_tcpserver.h"
 #include "net_config.h"
 
-
-
-
-
-
-
-
-
 namespace easynet
 {
 	void initialize(net_config cfg);

@@ -3,7 +3,7 @@
 #include "crc32.h"
 #pragma warning(disable : 4996)
 
-bool easynet::core::c_crypt::generate_key( )
+bool easynet::core::c_crypt::generate_key()
 {
 	rsa = RSA_new();
 	if (!rsa)
@@ -19,17 +19,16 @@ bool easynet::core::c_crypt::generate_key( )
 	BN_set_word(exponent, 65537);
 	RSA_generate_key_ex(rsa, 1024, exponent, NULL);
 
-
 	return true;
 }
 
-void easynet::core::c_crypt::generate_aes_key( )
+void easynet::core::c_crypt::generate_aes_key()
 {
 	this->AES_KEY = new std::int8_t[16];
 	RAND_bytes((unsigned char*)AES_KEY, 16);
 }
 
-easynet::data::c_buffer easynet::core::c_crypt::get_rsa_public_key( )
+easynet::data::c_buffer easynet::core::c_crypt::get_rsa_public_key()
 {
 	std::vector<uint8_t> derPublicKey;
 	{
@@ -45,7 +44,6 @@ easynet::data::c_buffer easynet::core::c_crypt::get_rsa_public_key( )
 
 		derPublicKey.resize(keyLength);
 	}
-
 
 	return data::c_buffer((int8_t*)derPublicKey.data(), derPublicKey.size());
 }
@@ -65,17 +63,13 @@ easynet::data::c_buffer easynet::core::c_crypt::encrypt(easynet::data::c_buffer 
 	for (int i = 0; i < padding; i++)
 		EncryptStruct.write_int8((std::int8_t)0);
 
-
 	++current_encrypt_counter;
 	size_t es = 0;
 	EVP_CIPHER_CTX* ctx;
 	ctx = EVP_CIPHER_CTX_new();
 	if (ctx == NULL)
 	{
-
-
 		return data::c_buffer();
-
 	}
 	if (EVP_EncryptInit_ex(ctx, EVP_aes_128_ecb(), NULL, (unsigned char*)AES_KEY, NULL) == 0)
 	{
@@ -86,14 +80,12 @@ easynet::data::c_buffer easynet::core::c_crypt::encrypt(easynet::data::c_buffer 
 	int outSize2 = 0;
 	if (EVP_EncryptUpdate(ctx, out, &outSize2, (unsigned char*)EncryptStruct.buffer(), EncryptStruct.size()) == 0)
 	{
-
 		return data::c_buffer();
 	}
 	es += outSize2;
 	outSize2 = 0;
 	if (EVP_EncryptFinal_ex(ctx, (unsigned char*)EncryptStruct.buffer() + es, &outSize2) == 0)
 	{
-
 		return data::c_buffer();
 	}
 	es += outSize2;
@@ -113,12 +105,10 @@ easynet::data::c_buffer easynet::core::c_crypt::decrypt(easynet::data::c_buffer 
 	ret = false;
 	if (ctx == NULL)
 	{
-
 		return decrypted;
 	}
 	if (!EVP_DecryptInit_ex(ctx, EVP_aes_128_ecb(), 0, (unsigned char*)AES_KEY, 0))
 	{
-
 		return decrypted;
 	}
 	EVP_CIPHER_CTX_set_padding(ctx, false);
@@ -129,7 +119,6 @@ easynet::data::c_buffer easynet::core::c_crypt::decrypt(easynet::data::c_buffer 
 
 	if (!EVP_DecryptUpdate(ctx, (unsigned char*)arr, &ds, (unsigned char*)ToDecrypt.buffer(), ToDecrypt.size()))
 	{
-
 		return decrypted;
 	}
 	ds2 += ds;
@@ -172,9 +161,7 @@ easynet::data::c_buffer easynet::core::c_crypt::encrypt_key(easynet::data::c_buf
 	ctx = EVP_CIPHER_CTX_new();
 	if (ctx == NULL)
 	{
-
 		return data::c_buffer();
-
 	}
 	if (EVP_EncryptInit_ex(ctx, EVP_aes_128_ecb(), NULL, (unsigned char*)AES_KEY, NULL) == 0)
 	{

@@ -4,13 +4,6 @@
 #include <openssl/rsa.h>
 #include <openssl/rand.h>
 
-
-
-
-
-
-
-
 namespace easynet {
 	namespace core
 	{
@@ -18,7 +11,6 @@ namespace easynet {
 		{
 		public:
 			inline c_crypt() = default;
-
 
 			bool generate_key();
 
@@ -38,8 +30,6 @@ namespace easynet {
 
 			std::int16_t current_encrypt_counter = 0;
 			std::int16_t current_decrypt_counter = 0;
-
 		};
-
 	}
 }

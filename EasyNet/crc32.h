@@ -3,13 +3,6 @@
 #include <iostream>
 #include "c_buffer.h"
 
-
-
-
-
-
-
-
 namespace easynet {
 	namespace util
 	{

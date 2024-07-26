@@ -6,14 +6,13 @@
 bool easynet::c_tcpserver::start()
 {
 	if ((m_server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-
 		return false;
 	}
 
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
 	hint.sin_port = htons(m_server_port);
-	hint.sin_addr.S_un.S_addr = INADDR_ANY; 
+	hint.sin_addr.S_un.S_addr = INADDR_ANY;
 
 	if (bind(m_server_socket, (struct sockaddr*)&hint, sizeof(hint)) == -1) {
 		return false;
@@ -38,11 +37,11 @@ bool easynet::c_tcpserver::start()
 	return true;
 }
 
-void easynet::c_tcpserver::stop_server( )
+void easynet::c_tcpserver::stop_server()
 {
 }
 
-void easynet::c_tcpserver::run( )
+void easynet::c_tcpserver::run()
 {
 	size_t buf_size = 101000;
 	char* read_buffer = new char[buf_size];
@@ -74,12 +73,10 @@ void easynet::c_tcpserver::run( )
 				m_sessions[connected_client] = (session);
 
 				FD_SET(connected_client, &master);
-
 			}
 			else {
 				if (m_sessions.find(csock) == m_sessions.end())
 				{
-
 					closesocket(csock);
 					FD_CLR(csock, &master);
 
@@ -93,13 +90,11 @@ void easynet::c_tcpserver::run( )
 				int bytes_received = recv(csock, read_buffer, buf_size, 0);
 
 				if (bytes_received <= 0) {
-
 					session->m_stop = true;
 					closesocket(csock);
 					FD_CLR(csock, &master);
 				}
 				else {
-
 					session->m_received_buffer.write_bytes((const uint8_t*)read_buffer, bytes_received);
 				}
 				session->mtx.unlock();
@@ -111,7 +106,7 @@ void easynet::c_tcpserver::run( )
 	read_buffer = nullptr;
 }
 
-void easynet::c_tcpserver::handle_data( )
+void easynet::c_tcpserver::handle_data()
 {
 	while (!m_stop)
 	{
@@ -120,9 +115,7 @@ void easynet::c_tcpserver::handle_data( )
 			auto _session = _sessiontree.second;
 			try {
 				if (_session->mtx.try_lock()) {
-
 					if (_session->is_disconnected()) {
-
 						m_sessions.erase(_sessiontree.first);
 						continue;
 					}
@@ -163,7 +156,7 @@ void easynet::c_tcpserver::handle_data( )
 	}
 }
 
-void easynet::c_tcpserver::send_handler( )
+void easynet::c_tcpserver::send_handler()
 {
 	while (!m_stop)
 	{
@@ -174,12 +167,10 @@ void easynet::c_tcpserver::send_handler( )
 			if (_session->is_disconnected()) continue;
 			while (!_session->m_send_packets.empty())
 			{
-
 				auto packet = _session->m_send_packets.front();
 
 				auto header = packet.write_header();
 				auto buffer = packet.body;
-
 
 				send(_session->m_client_socket, (char*)header.buffer(), header.size(), 0);
 				send(_session->m_client_socket, (char*)buffer.buffer(), buffer.size(), 0);
@@ -188,12 +179,10 @@ void easynet::c_tcpserver::send_handler( )
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
 	}
-
 }
 
-void easynet::c_tcpserver::recv_handler( )
+void easynet::c_tcpserver::recv_handler()
 {
 	while (!m_stop)
 	{
@@ -206,17 +195,16 @@ void easynet::c_tcpserver::recv_handler( )
 			{
 				auto packet = _session->m_recv_packets.front();
 
-				core::handle_packet_server(_session.get (  ), packet);
+				core::handle_packet_server(_session.get(), packet);
 
 				_session->m_recv_packets.pop_front();
 			}
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
 	}
 }
 
-void easynet::c_tcpserver::on_server_client_connected( std::shared_ptr<c_session> session )
+void easynet::c_tcpserver::on_server_client_connected(std::shared_ptr<c_session> session)
 {
 	++m_connection_count;
 
@@ -236,5 +224,4 @@ void easynet::c_tcpserver::on_server_client_connected( std::shared_ptr<c_session
 	settings.rsa_encryption_key = m_rsa_bytes;
 
 	session->send_data(settings.write(), packet_type_opcode::server_connection_settings);
-
 }

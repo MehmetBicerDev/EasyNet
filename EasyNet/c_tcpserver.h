@@ -1,17 +1,12 @@
 #pragma once
 #include "c_session.h"
 
-
-
-
-
-
 namespace easynet
 {
 	class c_tcpserver
 	{
 	public:
-		inline c_tcpserver(uint16_t p_server_port = 57006) : m_server_port ( p_server_port ){}
+		inline c_tcpserver(uint16_t p_server_port = 57006) : m_server_port(p_server_port) {}
 
 		bool start();
 
@@ -32,8 +27,6 @@ namespace easynet
 		data::c_buffer m_rsa_bytes;
 		core::c_crypt m_server_crypt;
 
-
-
 	private:
 		std::thread m_data_thread;
 		std::thread m_recv_thread;
@@ -46,6 +39,5 @@ namespace easynet
 		void recv_handler();
 
 		void on_server_client_connected(std::shared_ptr<c_session> session);
-
 	};
 }

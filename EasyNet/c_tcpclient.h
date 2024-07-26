@@ -1,10 +1,6 @@
 #pragma once
 #include "c_session.h"
 
-
-
-
-
 namespace easynet
 {
 	class c_tcpclient
@@ -14,8 +10,8 @@ namespace easynet
 
 	public:
 		bool connect_to_server();
-		void send_packet( core::c_packet message);
-		void send_data( data::c_buffer message, packet_type_opcode opcode);
+		void send_packet(core::c_packet message);
+		void send_data(data::c_buffer message, packet_type_opcode opcode);
 		void send_encrypted(packet_type_opcode opcode, data::c_buffer message);
 
 	public:
@@ -34,6 +30,4 @@ namespace easynet
 
 		void send_handler();
 	};
-
-
 }

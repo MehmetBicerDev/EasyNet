@@ -1,6 +1,5 @@
 #include "packet_core_handler.h"
 
-
 //packets
 #include "c_clientkeyexchange.h"
 #include "c_server_connection_settings.h"
@@ -25,7 +24,7 @@ void easynet::core::handle_packet_client(easynet::c_session* session_ptr, easyne
 		server_connection_settings.rsa_encryption_key.read_bytes(rsa_key, rsa_key_size);
 		session_ptr->m_crypt->rsa = d2i_RSAPublicKey(0, (const unsigned char**)&rsa_key, rsa_key_size);
 
-		clientkey_exchange.aeskey = session_ptr->m_crypt->rsaencrypt( easynet::data::c_buffer((int8_t*)session_ptr->m_crypt->AES_KEY, 16));
+		clientkey_exchange.aeskey = session_ptr->m_crypt->rsaencrypt(easynet::data::c_buffer((int8_t*)session_ptr->m_crypt->AES_KEY, 16));
 
 		session_ptr->send_data(clientkey_exchange.write(), packet_type_opcode::client_keyexchange);
 		// handle
@@ -73,7 +72,6 @@ void easynet::core::handle_packet_client(easynet::c_session* session_ptr, easyne
 					new_packet.body_length = message.size();
 					new_packet.opcode = (uint8_t)opcode;
 					handle_packet_client(session_ptr, new_packet);
-
 				}
 			}
 		}
@@ -88,12 +86,10 @@ void easynet::core::handle_packet_client(easynet::c_session* session_ptr, easyne
 		break;
 	}
 	}
-
 }
 
 void easynet::core::handle_packet_server(easynet::c_session* session, easynet::core::c_packet packet)
 {
-
 	switch ((packet_type_opcode)packet.opcode)
 	{
 	case packet_type_opcode::client_keyexchange:
@@ -112,11 +108,9 @@ void easynet::core::handle_packet_server(easynet::c_session* session, easynet::c
 		session->m_crypt->AES_KEY = new int8_t[16];
 		memcpy(session->m_crypt->AES_KEY, decrypted_aes.buffer(), 16);
 
-
 		session->m_connection_established = true;
 
-		session->send_data( easynet::data::c_buffer(), packet_type_opcode::connection_success);
-
+		session->send_data(easynet::data::c_buffer(), packet_type_opcode::connection_success);
 
 		session->reset_ping();
 
@@ -137,7 +131,6 @@ void easynet::core::handle_packet_server(easynet::c_session* session, easynet::c
 
 	case packet_type_opcode::encrypted_message:
 	{
-
 		if (session->m_crypt->AES_KEY)
 		{
 			bool                    res = false;
@@ -160,18 +153,14 @@ void easynet::core::handle_packet_server(easynet::c_session* session, easynet::c
 
 					if (!decrypted.read_uint8(padding) || !decrypted.read_uint(crc32) || !decrypted.read_uint16(encrypt_counter) || !decrypted.read_uint8((uint8_t&)opcode) || !decrypted.read_bytes(message, decrypted.bytes_left())) return;
 
-
 					easynet::core::c_packet new_packet;
 
 					new_packet.body = message;
 					new_packet.body_length = message.size();
 					new_packet.opcode = (uint8_t)opcode;
 					handle_packet_server(session, new_packet);
-
 				}
 			}
-
-
 		}
 
 		break;
@@ -182,12 +171,10 @@ void easynet::core::handle_packet_server(easynet::c_session* session, easynet::c
 		session->update_ping();
 
 		session->reset_ping();
-		if (session->should_send_ping (  )) {
-
-			session->send_data( easynet::data::c_buffer(), packet_type_opcode::ping_pong);
+		if (session->should_send_ping()) {
+			session->send_data(easynet::data::c_buffer(), packet_type_opcode::ping_pong);
 		}
 		break;
 	}
-
 	}
 }

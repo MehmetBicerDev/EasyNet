@@ -5,9 +5,6 @@
 #include "c_packet.h"
 #include "c_timer.h"
 
-
-
-
 namespace easynet
 {
 	class c_session;
@@ -18,7 +15,6 @@ namespace easynet
 	public:
 		inline c_session(const int p_client_socket = 0, bool p_created_by_server = false) : m_client_socket(p_client_socket), m_created_by_server(p_created_by_server) {}
 
-
 	public:
 		void create_crypt();
 		std::string get_ip_address();
@@ -28,12 +24,11 @@ namespace easynet
 		void update_ping();
 		void reset_ping();
 		bool should_send_ping();
-		
 
 	public:
 		void send_packet(core::c_packet message);
 		void send_message(uint16_t message_opcode, data::c_buffer buffer);
-		void send_data( data::c_buffer message, packet_type_opcode opcode);
+		void send_data(data::c_buffer message, packet_type_opcode opcode);
 		void send_encrypted(packet_type_opcode opcode, data::c_buffer message);
 
 		void read_packet();
@@ -61,7 +56,6 @@ namespace easynet
 		data::c_buffer m_received_buffer;
 		BYTE* read_buffer = nullptr;
 
-
 		std::thread m_recv_thread;
 		std::thread m_packet_thread;
 	private:
@@ -70,10 +64,7 @@ namespace easynet
 
 		std::mutex mtx;
 
-
 	private:
 		std::string ip_address = "";
-
-
 	};
 }

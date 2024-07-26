@@ -1,8 +1,5 @@
 #include "easynet.h"
 
-
-
-
 namespace easynet
 {
 	net_config easyconfig;
@@ -27,12 +24,12 @@ namespace easynet
 
 	bool start(on_message_received_t message_callback, on_key_exchange_t keyexchange_callback)
 	{
-		if (easyconfig.direction == net_direction::server && message_callback) 
+		if (easyconfig.direction == net_direction::server && message_callback)
 		{
 			easy_server->on_message_received_fn = message_callback;
 			return easy_server->start();
 		}
-		else if(easyconfig.direction == net_direction::client && message_callback && keyexchange_callback)
+		else if (easyconfig.direction == net_direction::client && message_callback && keyexchange_callback)
 		{
 			easy_client->on_message_received_fn = message_callback;
 			easy_client->on_key_exchange_fn = keyexchange_callback;

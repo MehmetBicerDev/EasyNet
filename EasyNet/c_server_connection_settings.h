@@ -1,13 +1,6 @@
 #pragma once
 #include "c_buffer.h"
 
-
-
-
-
-
-
-
 namespace easynet
 {
 	namespace core
@@ -28,12 +21,10 @@ namespace easynet
 				return buffer;
 			}
 
-			bool read( data::c_buffer& buffer)
+			bool read(data::c_buffer& buffer)
 			{
 				return buffer.read_bytes(rsa_encryption_key);
 			}
-
-
 		};
 	}
 }
